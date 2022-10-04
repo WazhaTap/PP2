@@ -1,0 +1,254 @@
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <string>
+#include <array>
+#include <vector>
+
+#include "Client.h"
+#include "SalesRep.h"
+#include "CarInvent.h"
+using namespace std;
+void PrintMenu()
+{
+	cout << "c- add client" << endl;
+	cout << "r- add sales representative" << endl;
+	cout << "p- add vehicle" << endl;
+	cout << "q- quit" << endl;
+}
+
+void ExecuteMenu(char option, Client& theInfo) {
+	string name;
+	string address;
+	string condition;
+	string date;
+	string price;
+	const string TNAME = "Name";
+	const string TADDRESS = "Address";
+	const string SALEDATE = "Date of Sale";
+	const string TITLE1 = "C L I E N T  I N F O";
+	const string TITLE2 = "S A L E S  R E P R E S E N T A T I V E";
+	const string TITLE4 = "C A R  I N V E N T O R Y";
+	const string MODEL = "Model";
+	const string CONDITION = "Conditon";
+	const string PRICE = "Price";
+	ifstream ifile("ClientInfo.txt");
+	ifstream ifile2("SaleRep.txt");
+	ifstream ifile3("CarInventory.txt");
+	ofstream ofile("Client_Database.txt");
+	ofstream ofile2 ("NewClientInfo.txt");
+	ofstream ofile3("NewSaleRep.txt");
+	ofstream ofile4("NewCarInventory");
+	string myText;
+	Client client;
+	SalesRep sRep;
+	Car car;
+	int uNum;
+	int size;
+	// determines the size of the vectors
+	cout << "Enter total clients and sales reps:" << endl;
+	cin >> size;
+	vector<string> clientName(size);
+	vector<string> clientAdd(size);
+	vector<string> clientDate(size);
+
+	vector<string> repName(size);
+	vector<string> repAdd(size);
+	vector<string> repDate(size);
+
+	vector<string> carName(size);
+	vector<string> carCond(size);
+	vector<string> carPrice(size);
+	vector<string> carDate(size);
+	switch (option)
+	{
+	case 'c':
+	{
+		// should correspond with the vector size
+		cout << "type the same number:" << endl;
+		cin >> uNum;
+		cin.ignore();
+		for (int i = 0; i < uNum; i++) {
+		cout << "Enter Client name:" << endl;
+		getline(cin, name);
+		cout << "Enter client address:" << endl;
+		getline(cin, address);
+		cout << "Enter sale of date:" << endl;
+		getline(cin, date);
+
+		client.SetName(name);
+		client.SetAddress(address);
+		client.SetDate(date);
+		
+		string vname = client.GetName();
+		string vadd = client.GetAddress();
+		string vdate = client.GetDate();
+
+		clientName.push_back(vname);
+		clientAdd.push_back(vadd);
+		clientDate.push_back(vdate);
+	}
+		cout << setw(32) << TITLE1 << endl;
+		cout << TNAME << setw(20) << TADDRESS << setw(20) << SALEDATE << endl;
+
+		ofile2 << setw(32) << TITLE1 << endl;
+		ofile2 << TNAME << setw(20) << TADDRESS << setw(20) << SALEDATE << endl;
+		while (getline(ifile, myText)) {
+			cout << myText << endl;
+			ofile2 << myText << endl;
+		}
+
+		for (int i = 0; i < clientName.size(); i++) {
+			ofile2 << clientName.at(i)<<setw(20) << clientAdd.at(i)<< setw(25) << clientDate.at(i) << endl;
+
+		}
+
+	}
+	break;
+
+
+	case 'r':
+	{
+		// should correspond with the vector size
+		cout << "enter amount of times:" << endl;
+		cin >> uNum;
+		cin.ignore();
+		for (int i = 0; i < uNum; i++) {
+			cout << "Enter representative's name:" << endl;
+			getline(cin, name);
+			cout << "Enter representative's address:" << endl;
+			getline(cin, address);
+			cout << "Enter sale of date:" << endl;
+			getline(cin, date);
+
+			sRep.SetName(name);
+			sRep.SetAddress(address);
+			sRep.SetDate(date);
+
+
+			string rname = sRep.GetName();
+			string radd = sRep.GetAddress();
+			string rdate = sRep.GetDate();
+
+			repName.push_back(rname);
+			repAdd.push_back(radd);
+			repDate.push_back(rdate);
+		}
+
+		cout << setw(43) << TITLE2 << endl;
+		cout << TNAME << setw(28) << TADDRESS << setw(36) << SALEDATE << endl;
+		while (getline(ifile2, myText)) {
+			cout << myText << endl;
+			ofile3 << myText << endl;
+		}
+
+		for (int i = 0; i < repName.size(); i++) {
+			ofile3 << repName.at(i) << setw(20) << repAdd.at(i) << setw(25) << repDate.at(i) << endl;
+
+		}
+
+	}
+	case 'p':
+	{
+		// should correspond with the vector size
+		cout << "enter amount of times:" << endl;
+		cin >> uNum;
+		cin.ignore();
+		for (int i = 0; i < uNum; i++) {
+			cout << "Enter vehicle name:" << endl;
+			getline(cin, name);
+			cout << "Enter vehicle's conditon:" << endl;
+			getline(cin, address);
+			cout << "Enter vehicle price:" << endl;
+			getline(cin, price);
+			cout << "Enter sale of date:" << endl;
+			getline(cin, date);
+
+			car.SetName(name);
+			car.SetCondition(condition);
+			car.SetPrice(price);
+			car.SetDate(date);
+
+
+			string carname = car.GetName();
+			string carcondit = car.GetCondition();
+			string carprice = car.GetPrice();
+			string cardate = car.GetDate();
+
+			carName.push_back(carname);
+			carCond.push_back(carcondit);
+			carPrice.push_back(carprice);
+			carDate.push_back(cardate);
+		}
+
+		cout << setw(43) << TITLE4 << endl;
+		cout << MODEL << setw(27) << CONDITION << setw(21) << PRICE << setw(30) << SALEDATE << endl;
+		while (getline(ifile3, myText)) {
+			cout << myText << endl;
+			ofile4 << myText << endl;
+		}
+
+		for (int i = 0; i < carName.size(); i++) {
+			ofile4 << carName.at(i) << setw(20) << carCond.at(i) << setw(25)<< carPrice.at(i) << setw(25) << carDate.at(i) << endl;
+
+		}
+
+
+
+
+	}
+
+	}
+	
+
+	}
+
+
+
+int main() {
+	const string TNAME = "Name";
+	const string TADDRESS = "Address";
+	const string SALEDATE = "Date of Sale";
+	const string MODEL = "Model";
+	const string CONDITION = "Conditon";
+	const string PRICE = "Price";
+
+	const string TITLE1 = "C L I E N T  I N F O";
+	const string TITLE2 = "S A L E S  R E P R E S E N T A T I V E";
+	const string TITLE3 = "S A N  J A C I N T O  C A R S";
+	const string TITLE4 = "C A R  I N V E N T O R Y";
+
+	ifstream ifile("ClientInfo.txt");
+	ifstream ifile2("SaleRep.txt");
+	ifstream ifile3("CarInventory.txt");
+	ofstream ofile("Client_Database.txt");
+
+	string name;
+	string address;
+	string date;
+	int i, j, uNum;
+	
+
+	char menuChoice = ' ' ;
+
+	Client myInfo(name, address, date);
+	PrintMenu();
+
+	ofile << setw(32) << TITLE1 << endl;
+	ofile << TNAME << setw(20) << TADDRESS << setw(20) << SALEDATE << endl;
+
+	ofile << setw(43) << TITLE2 << endl;
+	ofile << TNAME << setw(28) << TADDRESS << setw(36) << SALEDATE << endl;
+
+	while (menuChoice != 'q') {
+		cout << "Choose an option:" << endl;
+		cin >> menuChoice;
+		if (menuChoice == 'c' || menuChoice == 'r' || menuChoice == 'p') {
+			ExecuteMenu(menuChoice, myInfo);
+			PrintMenu();
+			cout << endl;
+		}
+		if (menuChoice == 'q') {
+			cout << "Information has been written to your files." << endl;
+		}
+	}
